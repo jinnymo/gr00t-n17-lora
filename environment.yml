@@ -1,0 +1,36 @@
+# Conda environment that mirrors the setup this wrapper has been tested on.
+#
+# This file is a convenience: it pins the Python and pip-installable
+# dependencies that overlap with NVIDIA Isaac-GR00T. After creating the
+# environment, you still need to:
+#
+#   1. Install NVIDIA Isaac-GR00T into this same env (it provides the
+#      `gr00t` Python package that this wrapper imports). Follow:
+#      https://github.com/NVIDIA/Isaac-GR00T#installation
+#   2. Install flash-attn separately (Isaac-GR00T's pyproject pins a
+#      pre-built wheel for torch 2.7 / cu126).
+#
+# Verified hardware: NVIDIA RTX 3090 Ti (24 GB), driver 590.48.01, CUDA 12.6.
+
+name: grootn17-lora
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu126
+      - torch==2.7.1
+      - torchvision==0.22.1
+      - transformers==4.57.3
+      - peft==0.17.1
+      - accelerate==1.13.0
+      - diffusers==0.35.1
+      - safetensors==0.7.0
+      - tokenizers==0.22.2
+      - numpy==1.26.4
+      - pyarrow==24.0.0
+      - tyro==0.9.17
+      - bitsandbytes==0.49.2

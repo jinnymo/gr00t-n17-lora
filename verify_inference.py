@@ -37,19 +37,23 @@ def adapter_dir_size_bytes(path: Path) -> int:
     return sum(p.stat().st_size for p in path.rglob("*") if p.is_file())
 
 
-def build_synthetic_obs(policy):
+def build_synthetic_obs(policy, ckpt_dir: Path):
     mc = policy.modality_configs
 
-    stats_path = Path(policy.model_path) / "experiment_cfg" / "dataset_statistics.json"
     state_dims = {k: 1 for k in mc["state"].modality_keys}
-    if stats_path.exists():
-        stats = json.loads(stats_path.read_text())
-        embodiment_stats = next(iter(stats.values()))
-        state_section = embodiment_stats.get("state", {})
-        for k in mc["state"].modality_keys:
-            mean = state_section.get(k, {}).get("mean")
-            if isinstance(mean, list):
-                state_dims[k] = len(mean)
+    for candidate in [
+        ckpt_dir / "experiment_cfg" / "dataset_statistics.json",
+        ckpt_dir / "statistics.json",
+    ]:
+        if candidate.exists():
+            stats = json.loads(candidate.read_text())
+            embodiment_stats = next(iter(stats.values()))
+            state_section = embodiment_stats.get("state", {})
+            for k in mc["state"].modality_keys:
+                mean = state_section.get(k, {}).get("mean")
+                if isinstance(mean, list):
+                    state_dims[k] = len(mean)
+            break
 
     np.random.seed(0)
     return {
@@ -91,7 +95,6 @@ def main():
         model_path=str(args.adapter),
         device=args.device,
     )
-    policy.model_path = str(args.adapter)
     policy.model.eval()
 
     if not hasattr(policy.model, "peft_config"):
@@ -127,12 +130,20 @@ def main():
         print(f"[3/4] adapter_only size: {size_mb:.1f} MB -- "
               f"{'PASS' if check3 else 'FAIL'} (expected {args.min_adapter_mb}..{args.max_adapter_mb} MB)")
 
-    obs = build_synthetic_obs(policy)
+    obs = build_synthetic_obs(policy, args.adapter)
     out_with, _ = policy._get_action(obs)
     a_with = out_with[next(iter(out_with))]
-    with policy.model.disable_adapter():
-        out_without, _ = policy._get_action(obs)
-        a_without = out_without[next(iter(out_without))]
+
+    if hasattr(policy.model, "disable_adapter") and callable(policy.model.disable_adapter):
+        with policy.model.disable_adapter():
+            out_without, _ = policy._get_action(obs)
+    else:
+        policy.model.disable_adapters()
+        try:
+            out_without, _ = policy._get_action(obs)
+        finally:
+            policy.model.enable_adapters()
+    a_without = out_without[next(iter(out_without))]
     diff = float(np.abs(np.asarray(a_with) - np.asarray(a_without)).mean())
     check4 = diff > args.forward_diff_threshold
     print(f"[4/4] Forward output diff (adapter on vs off): {diff:.6f} -- "
