@@ -7,8 +7,10 @@ the n1.6 branch removed it, and main / N1.7 do not bring it back. This
 repo restores LoRA on N1.7 by monkey-patching three hooks in
 Isaac-GR00T, without modifying the upstream source tree.
 
-> Status: pre-release. Full results, debugging journey, and a public
-> Hugging Face adapter are forthcoming.
+> Status: pre-release. Detailed results and a debugging-journey writeup
+> are forthcoming. A working LoRA adapter is published at
+> [`dongyoonkim/grootn17-lora-so101-eraser-tier1`](https://huggingface.co/dongyoonkim/grootn17-lora-so101-eraser-tier1)
+> and is wired into the Quick Start below.
 
 ## Verified environment
 
@@ -86,12 +88,13 @@ huggingface-cli download nvidia/GR00T-N1.7-3B \
   --local-dir models/GR00T-N1.7-3B
 
 # Download the public LoRA adapter (~2.2 GB).
-# (Adapter Hugging Face repo will be linked here once published.)
+huggingface-cli download dongyoonkim/grootn17-lora-so101-eraser-tier1 \
+  --local-dir checkpoints/eraser-tier1
 
 # Run the four checks.
 python verify_inference.py \
   --base models/GR00T-N1.7-3B \
-  --adapter checkpoints/your-checkpoint
+  --adapter checkpoints/eraser-tier1
 ```
 
 Expected output:
