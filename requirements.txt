@@ -1,0 +1,9 @@
+# Install NVIDIA Isaac-GR00T first (it pins torch / transformers / etc.):
+#   https://github.com/NVIDIA/Isaac-GR00T
+# Then install these wrapper-side requirements on top.
+
+peft>=0.17.0
+tyro>=0.8
+
+# Optional: enables paged_adamw_8bit when present.
+# bitsandbytes>=0.43

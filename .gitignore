@@ -1,0 +1,42 @@
+# Data / checkpoints
+data/
+datasets/
+checkpoints/
+models/
+adapter_only/
+*.safetensors
+*.parquet
+*.bin
+*.pt
+*.pth
+
+# Logs / experiment tracking
+wandb/
+.wandb/
+*.log
+runs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.env
+.python-version
+
+# Build / packaging
+build/
+dist/
+*.egg
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Notebooks
+.ipynb_checkpoints/
