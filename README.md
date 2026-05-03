@@ -52,7 +52,7 @@ If you already have Isaac-GR00T installed and working, install this
 repo's extras into the same environment:
 
 ```bash
-git clone https://github.com/dongyoonkim/gr00t-n17-lora
+git clone https://github.com/jinnymo/gr00t-n17-lora
 cd gr00t-n17-lora
 pip install -r requirements.txt
 ```
@@ -61,7 +61,7 @@ pip install -r requirements.txt
 
 ```bash
 # 1. Create the conda env with pinned dependencies.
-git clone https://github.com/dongyoonkim/gr00t-n17-lora
+git clone https://github.com/jinnymo/gr00t-n17-lora
 cd gr00t-n17-lora
 conda env create -f environment.yml
 conda activate grootn17-lora
