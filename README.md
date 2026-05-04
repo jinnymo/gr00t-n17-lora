@@ -9,8 +9,10 @@ Isaac-GR00T, without modifying the upstream source tree.
 
 > Status: pre-release. Detailed results and a debugging-journey writeup
 > are forthcoming. A working LoRA adapter is published at
-> [`dongyoonkim/grootn17-lora-so101-eraser-tier1`](https://huggingface.co/dongyoonkim/grootn17-lora-so101-eraser-tier1)
-> and is wired into the Quick Start below.
+> [`dongyoonkim/grootn17-lora-so101-eraser-tier1`](https://huggingface.co/dongyoonkim/grootn17-lora-so101-eraser-tier1),
+> and the matching 90-episode SO-ARM101 wrist-only training dataset at
+> [`dongyoonkim/so101-eraser-90ep-wrist`](https://huggingface.co/datasets/dongyoonkim/so101-eraser-90ep-wrist).
+> The adapter is wired into the Quick Start below.
 
 ## Verified environment
 
@@ -117,6 +119,12 @@ All 4 checks passed. LoRA adapter is correctly applied.
   a single base model load (adapters are swapped).
 - `examples/so101_wrist_only_config.py` — modality config for SO-ARM101
   with a single wrist camera.
+
+## Related
+
+- LoRA adapter trained with this wrapper: [huggingface.co/dongyoonkim/grootn17-lora-so101-eraser-tier1](https://huggingface.co/dongyoonkim/grootn17-lora-so101-eraser-tier1)
+- Training dataset (90 ep, SO-ARM101 wrist-only): [huggingface.co/datasets/dongyoonkim/so101-eraser-90ep-wrist](https://huggingface.co/datasets/dongyoonkim/so101-eraser-90ep-wrist)
+- LeRobot v3.0 ↔ v2.1 format converter: [github.com/jinnymo/lerobot-v3-v2-converter](https://github.com/jinnymo/lerobot-v3-v2-converter)
 
 ## License
 
