@@ -7,12 +7,17 @@ the n1.6 branch removed it, and main / N1.7 do not bring it back. This
 repo restores LoRA on N1.7 by monkey-patching three hooks in
 Isaac-GR00T, without modifying the upstream source tree.
 
-> Status: pre-release. Detailed results and a debugging-journey writeup
-> are forthcoming. A working LoRA adapter is published at
+> Status: pre-release. A working LoRA adapter is published at
 > [`dongyoonkim/grootn17-lora-so101-eraser-tier1`](https://huggingface.co/dongyoonkim/grootn17-lora-so101-eraser-tier1),
 > and the matching 90-episode SO-ARM101 wrist-only training dataset at
 > [`dongyoonkim/so101-eraser-90ep-wrist`](https://huggingface.co/datasets/dongyoonkim/so101-eraser-90ep-wrist).
 > The adapter is wired into the Quick Start below.
+
+## Documentation
+
+- [Debugging journey](docs/debugging_journey.md) — how LoRA was restored on N1.7.
+- [Results](docs/results.md) — open-loop MAE and real-robot numbers.
+- [Verification](docs/verification.md) — what the four checks confirm.
 
 ## Verified environment
 
@@ -119,6 +124,9 @@ All 4 checks passed. LoRA adapter is correctly applied.
   a single base model load (adapters are swapped).
 - `examples/so101_wrist_only_config.py` — modality config for SO-ARM101
   with a single wrist camera.
+- `docs/debugging_journey.md` — how LoRA was restored on N1.7.
+- `docs/results.md` — open-loop MAE and real-robot numbers.
+- `docs/verification.md` — what the four checks confirm.
 
 ## Related
 
